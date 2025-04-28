@@ -1,17 +1,27 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Molecular Dynamics Viewer</title>
-  <script src="https://unpkg.com/ngl"></script>
+  <title>NGL Viewer Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.39/dist/ngl.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    #viewport { width: 100vw; height: 100vh; }
+  </style>
 </head>
-<body style="margin:0">
-  <div id="viewport" style="width:100%; height:100vh;"></div>
-  <script>
-    var stage = new NGL.Stage("viewport");
-
-    // 只載入PDB結構
-    stage.loadFile("all_start.pdb", { defaultRepresentation: true });
-  </script>
+<body>
+<div id="viewport"></div>
+<script>
+  var stage = new NGL.Stage("viewport");
+  stage.loadFile("all_start.pdb").then(function(o) {
+    o.addRepresentation("ball+stick");
+    o.autoView();
+  });
+</script>
 </body>
 </html>
+
+
+
+
