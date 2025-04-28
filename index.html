@@ -10,11 +10,8 @@
   <script>
     var stage = new NGL.Stage("viewport");
 
-    // 載入PDB結構
-    stage.loadFile("all_start.pdb", { defaultRepresentation: true }).then(function (o) {
-      // 加入XTC軌跡
-      o.addTrajectory("md_0_10_fit.xtc");
-    });
+    // 只載入PDB結構
+    stage.loadFile("all_start.pdb", { defaultRepresentation: true });
   </script>
 </body>
 </html>
