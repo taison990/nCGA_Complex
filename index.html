@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NGL Viewer with GUI</title>
+  <title>NGL Viewer with Trajectory</title>
   <script src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.39/dist/ngl.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js"></script>
   <style>
@@ -20,10 +19,18 @@
   <script>
     var stage = new NGL.Stage("viewport");
 
-    stage.loadFile("https://raw.githubusercontent.com/taison990/nCGA_Complex/main/all_start.pdb")
+    stage.loadFile("https://raw.githubusercontent.com/taison990/nCGA_Complex/master/all_start.pdb")
       .then(function (o) {
         o.addRepresentation("ball+stick");
         o.autoView();
+
+        // 加載軌跡檔案 (xtc)
+        stage.loadFile("https://raw.githubusercontent.com/taison990/nCGA_Complex/master/md_0_10_fit.xtc", { defaultRepresentation: true })
+          .then(function (traj) {
+            // 將軌跡檔案顯示為動畫
+            traj.addRepresentation("cartoon");
+            traj.autoView();
+          });
 
         var gui = new dat.GUI();
         var settings = {
@@ -56,5 +63,4 @@
       });
   </script>
 </body>
-
 </html>
