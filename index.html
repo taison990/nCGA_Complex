@@ -1,27 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>NGL Viewer Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGL Viewer with GUI</title>
   <script src="https://cdn.jsdelivr.net/npm/ngl@2.0.0-dev.39/dist/ngl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js"></script>
   <style>
     body { margin: 0; overflow: hidden; }
     #viewport { width: 100vw; height: 100vh; }
+    .dg { position: absolute; top: 0; right: 0; z-index: 100; }
   </style>
 </head>
+
 <body>
-<div id="viewport"></div>
-<script>
-  var stage = new NGL.Stage("viewport");
-  stage.loadFile("all_start.pdb").then(function(o) {
-    o.addRepresentation("ball+stick");
-    o.autoView();
-  });
-</script>
+  <div id="viewport"></div>
+
+  <script>
+    var stage = new NGL.Stage("viewport");
+
+    stage.loadFile("https://raw.githubusercontent.com/taison990/nCGA_Complex/main/all_start.pdb")
+      .then(function (o) {
+        o.addRepresentation("ball+stick");
+        o.autoView();
+
+        var gui = new dat.GUI();
+        var settings = {
+          representation: 'ball+stick',
+          colorScheme: 'element',
+          opacity: 1.0,
+          spin: false,
+          resetView: function () { stage.autoView(); }
+        };
+
+        var rep;
+
+        function updateRepresentation() {
+          o.removeAllRepresentations();
+          rep = o.addRepresentation(settings.representation, {
+            colorScheme: settings.colorScheme,
+            opacity: settings.opacity
+          });
+        }
+
+        gui.add(settings, 'representation', ['cartoon', 'ball+stick', 'surface', 'licorice']).onChange(updateRepresentation);
+        gui.add(settings, 'colorScheme', ['element', 'chainid', 'residueindex', 'bfactor']).onChange(updateRepresentation);
+        gui.add(settings, 'opacity', 0, 1).step(0.01).onChange(updateRepresentation);
+        gui.add(settings, 'spin').onChange(function (value) {
+          stage.setSpin(value);
+        });
+        gui.add(settings, 'resetView');
+
+        updateRepresentation();
+      });
+  </script>
 </body>
+
 </html>
-
-
-
-
