@@ -26,7 +26,7 @@
 
         // 加載軌跡檔案 (xtc)
         var traj = null;
-        stage.loadFile("https://zenodo.org/api/records/15358478/draft/files/md_0_10_fit.xtc/content", { defaultRepresentation: true })
+        stage.loadFile("https://zenodo.org/records/15358478/files/md_0_10_fit.xtc?download=1", { defaultRepresentation: true })
           .then(function (file) {
             traj = file;
             traj.addRepresentation("cartoon");
